@@ -5,5 +5,5 @@
 #include "../include/coolnumber.h"
 
 int getCoolNumber() {
-    return 42;
+	return 42;
 }
