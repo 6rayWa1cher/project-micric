@@ -188,3 +188,4 @@ _deps
 demo
 AllTests
 CMakeSettings.json
+.vs/
