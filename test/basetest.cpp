@@ -3,7 +3,7 @@
 //
 
 #include <gtest/gtest.h>
-#include "../src/coolnumber.h"
+#include "../src/include/coolnumber.h"
 
 TEST(Simple_test, Simple_test) {
     ASSERT_EQ(3, 3);
