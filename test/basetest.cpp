@@ -7,5 +7,5 @@
 
 TEST(Simple_test, Simple_test) {
     ASSERT_EQ(3, 3);
-    ASSERT_EQ(43, getCoolNumber());
+    ASSERT_EQ(42, getCoolNumber());
 }
