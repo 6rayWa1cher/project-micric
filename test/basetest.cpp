@@ -2,10 +2,10 @@
 // Created by Konstantin Grigoriev on 11/10/2019.
 //
 
-#define CATCH_CONFIG_MAIN
+#include <gtest/gtest.h>
+#include "../src/coolnumber.h"
 
-#include <catch.hpp>
-
-TEST_CASE("Simple test") {
-    REQUIRE(3 == 3);
+TEST(Simple_test, Simple_test) {
+    ASSERT_EQ(3, 3);
+    ASSERT_EQ(43, getCoolNumber());
 }
