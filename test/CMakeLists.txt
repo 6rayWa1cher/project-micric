@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.9.2)
-project(mini_cpp_compiler)
+project(project-micric)
 
 add_executable(AllTests basetest.cpp ../src/core/coolnumber.cpp ../src/include/coolnumber.h)
 target_link_libraries(AllTests gtest_main)

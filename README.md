@@ -1,2 +1,2 @@
-# mini-cpp-compiler
-Mini-C compiler to i8080 assembler. Homework at TvSU
+# project-micric [![Build Status](https://travis-ci.com/6rayWa1cher/mini-cpp-compiler.svg?branch=master)](https://travis-ci.com/6rayWa1cher/mini-cpp-compiler)
+Mini-C to i8080 asm compiler. Homework at TvSU.
