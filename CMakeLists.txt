@@ -39,6 +39,14 @@ if (CMAKE_VERSION VERSION_LESS 2.8.11)
 endif ()
 
 
+
+file(GLOB SRC_FILES 
+	${PROJECT_SOURCE_DIR}/src/core/*.cpp
+	${PROJECT_SOURCE_DIR}/src/include/*.h
+	${PROJECT_SOURCE_DIR}/src/lib/*.cpp
+	${PROJECT_SOURCE_DIR}/src/lib/*.h)
+
+
 enable_testing()
 add_subdirectory(src)
 add_subdirectory(test)
