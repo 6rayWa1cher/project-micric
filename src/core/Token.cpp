@@ -1,6 +1,6 @@
-#include "..\include\Token.h"
+#include "../include/Token.h"
+#include <iostream>
 #include <string>
-using namespace std;
 
 
 LexemType Token::type() {
@@ -11,22 +11,106 @@ int Token::value() {
 	return _value;
 }
 
-string Token::str() {
+std::string Token::str() {
 	return _str;
 }
 
+void Token::print(std::ostream &stream) {
+	std::cout << "[" << "]" << std::endl;
+}
+
 void Token::setType(LexemType type) {
-	_type = type;
+	this->_type = type;
 }
 
 void Token::setVal(int value) {
-	_value = value;
+	this->_value = value;
 }
 
-void Token::setStr(string str) {
-	_str = str;
+void Token::setStr(std::string &str) {
+	this->_str = str;
 }
 
-void Token::print(ostream& stream) {
-	cout << "[" << "]" << endl;
+std::string enToStr(LexemType type) {
+
+	switch (type) {
+		case LexemType::num:
+			return "num";
+		case LexemType::chr:
+			return "chr";
+		case LexemType::str:
+			return "str";
+		case LexemType::id:
+			return "id";
+		case LexemType::lpar:
+			return "lpar";
+		case LexemType::rpar:
+			return "rpar";
+		case LexemType::lbrace:
+			return "lbrace";
+		case LexemType::rbrace:
+			return "rbrace";
+		case LexemType::lbracket:
+			return "lbracket";
+		case LexemType::rbracket:
+			return "rbracket";
+		case LexemType::semicolon:
+			return "semicolon";
+		case LexemType::comma:
+			return "comma";
+		case LexemType::colon:
+			return "colon";
+		case LexemType::opassign:
+			return "opassign";
+		case LexemType::opplus:
+			return "opplus";
+		case LexemType::opminus:
+			return "opminus";
+		case LexemType::opmult:
+			return "opmult";
+		case LexemType::opinc:
+			return "opinc";
+		case LexemType::opeq:
+			return "opeq";
+		case LexemType::opne:
+			return "opne";
+		case LexemType::ople:
+			return "ople";
+		case LexemType::oplt:
+			return "oplt";
+		case LexemType::opgt:
+			return "opgt";
+		case LexemType::opnot:
+			return "opnot";
+		case LexemType::opor:
+			return "opor";
+		case LexemType::opand:
+			return "opand";
+		case LexemType::kwint:
+			return "kwint";
+		case LexemType::kwchar:
+			return "kwchar";
+		case LexemType::kwif:
+			return "kwif";
+		case LexemType::kwswitch:
+			return "kwswitch";
+		case LexemType::kwcase:
+			return "kwcase";
+		case LexemType::kwwhile:
+			return "kwwhile";
+		case LexemType::kwfor:
+			return "kwfor";
+		case LexemType::kwreturn:
+			return "kwreturn";
+		case LexemType::kwin:
+			return "kwin";
+		case LexemType::kwout:
+			return "kwout";
+		case LexemType::kwelse:
+			return "kwelse";
+		case LexemType::eof:
+			return "eof";
+		case LexemType::error:
+			return "error";
+	}
 }
