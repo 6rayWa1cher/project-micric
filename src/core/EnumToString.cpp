@@ -27,6 +27,7 @@ string enToStr(LexemType type) {
 	case LexemType::opinc: return "opinc";
 	case LexemType::opeq: return "opeq";
 	case LexemType::opne: return "opne";
+	case LexemType::ople: return "ople";
 	case LexemType::oplt: return "oplt";
 	case LexemType::opgt: return "opgt";
 	case LexemType::opnot: return "opnot";
