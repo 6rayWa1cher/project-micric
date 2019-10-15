@@ -12,6 +12,8 @@ enum class LexemType {
 	kwfor, kwreturn, kwin, kwout, eof, error
 };
 
+string enToStr(LexemType type);
+
 
 class Token {
 
