@@ -9,6 +9,6 @@ int main() {
 	LexemType fru = LexemType::num;
 	//Token token(fru);
 	//Token token2(5);
-	EnToStr(fru);
+	enToStr(fru);
 	return 0;
 }
