@@ -6,9 +6,11 @@
 int main() {
 	std::cout << "Hello, World!" << std::endl;
 	std::cout << getCoolNumber() << std::endl;
-	LexemType fru = LexemType::num;
-	//Token token(fru);
-	//Token token2(5);
-	enToStr(fru);
+	LexemType fru = LexemType::eof;
+	Token token(fru);
+	cout << token.value() << endl;
+	cout << token.str() << endl;
+	cout << enToStr(token.type()) << endl;
+	//enToStr(fru);
 	return 0;
 }

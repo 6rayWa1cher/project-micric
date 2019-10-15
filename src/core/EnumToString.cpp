@@ -7,6 +7,8 @@ string enToStr(LexemType type) {
 	
 	switch (type)
 	{
+	case LexemType::num: return "num";
+	case LexemType::chr: return "chr";
 	case LexemType::str: return "str";
 	case LexemType::id: return "id";
 	case LexemType::lpar: return "lpar";

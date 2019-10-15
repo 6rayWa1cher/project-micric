@@ -18,31 +18,32 @@ class Token {
 private:
 
 	LexemType _type;
-	int _value;
+	int _value = 0;
 	string _str;
+
 
 public:
 
 	Token(LexemType type) {
-		setType(type);
+		_type = type;
 	}
 
 	Token(int value) {
-		setType(LexemType::num);
-		setVal(value);
+		_type = LexemType::num;
+		_value = value;
 	}
 
 	Token(LexemType type, const string& str) {
-		setType(type);
-		setStr(str);
+		_type = type;
+		_str = str;
 	}
 
 	Token(char c) {
-		setType(LexemType::chr);
-		setVal(int(c));
+		_type = LexemType::chr;
+		_value = int(c);
 		string s;
 		s = "" + c;
-		setStr(s);
+		_str = s;
 	}
 
 	LexemType type();
