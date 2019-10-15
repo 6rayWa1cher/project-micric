@@ -16,8 +16,6 @@ string Token::str() {
 	return _str;
 }
 
-
-
 void Token::print(ostream& stream) {
-	cout << "[" << "]" << endl;
+	cout << "[" <<  "]" << endl;
 }

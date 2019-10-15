@@ -41,8 +41,7 @@ public:
 	Token(char c) {
 		_type = LexemType::chr;
 		_value = int(c);
-		string s;
-		s = "" + c;
+		string s(1, c);
 		_str = s;
 	}
 
