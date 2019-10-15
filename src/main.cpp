@@ -6,9 +6,9 @@ int main() {
 	std::cout << "Hello, World!" << std::endl;
 	LexemType fru = LexemType::chr;
 	Token token('a');
-	cout << token.value() << endl;
-	cout << token.str() << endl;
-	cout << enToStr(token.type()) << endl;
+	std::cout << token.value() << std::endl;
+	std::cout << token.str() << std::endl;
+	std::cout << enToStr(token.type()) << std::endl;
 	//enToStr(fru);
 	return 0;
 }
