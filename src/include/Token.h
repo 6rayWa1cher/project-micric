@@ -2,7 +2,6 @@
 #define MINI_CPP_COMPILER_TOKEN_H
 
 #include <string>
-using namespace std;
 
 
 enum class LexemType {
@@ -12,7 +11,7 @@ enum class LexemType {
 	kwfor, kwreturn, kwin, kwout, eof, error
 };
 
-string enToStr(LexemType type);
+std::string enToStr(LexemType type);
 
 
 class Token {
@@ -21,7 +20,7 @@ private:
 
 	LexemType _type;
 	int _value = 0;
-	string _str;
+	std::string _str;
 
 
 public:
@@ -35,7 +34,7 @@ public:
 		_value = value;
 	}
 
-	Token(LexemType type, const string& str) {
+	Token(LexemType type, const std::string &str) {
 		_type = type;
 		_str = str;
 	}
@@ -43,17 +42,23 @@ public:
 	Token(char c) {
 		_type = LexemType::chr;
 		_value = int(c);
-		string s(1, c);
+		std::string s(1, c);
 		_str = s;
 	}
 
 	LexemType type();
+
 	int value();
-	string str();
-	LexemType setType(LexemType type);
+
+	std::string str();
+
+	void setType(LexemType type);
+
 	void setVal(int value);
-	void setStr(string str);
-	void print(ostream& stream);
+
+	void setStr(std::string &str);
+
+	void print(std::ostream &stream);
 };
 
 
