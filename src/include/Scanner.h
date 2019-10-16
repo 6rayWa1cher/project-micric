@@ -1,28 +1,54 @@
-#ifndef MINI_CPP_COMPILER_SCANNER_H
-#define MINI_CPP_COMPILER_SCANNER_H
+#ifndef PROJECT_MICRIC_SCANNER_H
+#define PROJECT_MICRIC_SCANNER_H
 
 #include <map>
+#include <istream>
 #include "Token.h"
 
-std::map<char, LexemType> punctuation{{'[', LexemType::lbracket},
-									  {']', LexemType::rbracket},
-									  {'(', LexemType::lpar},
-									  {')', LexemType::rpar},
-									  {'{', LexemType::lbrace},
-									  {'}', LexemType::rbrace},
-									  {';', LexemType::semicolon},
-									  {',', LexemType::comma},
-									  {':', LexemType::colon}};
-std::map<std::string, LexemType> keywords{{"return", LexemType::kwreturn},
-										  {"int",    LexemType::kwint},
-										  {"char",   LexemType::kwchar},
-										  {"if",     LexemType::kwif},
-										  {"else",   LexemType::kwelse},
-										  {"switch", LexemType::kwswitch},
-										  {"case",   LexemType::kwcase},
-										  {"while",  LexemType::kwwhile},
-										  {"for",    LexemType::kwfor},
-										  {"in",     LexemType::kwin},
-										  {"out",    LexemType::kwout}};
+static std::map<char, LexemType> punctuation{{'[', LexemType::lbracket},
+											 {']', LexemType::rbracket},
+											 {'(', LexemType::lpar},
+											 {')', LexemType::rpar},
+											 {'{', LexemType::lbrace},
+											 {'}', LexemType::rbrace},
+											 {';', LexemType::semicolon},
+											 {',', LexemType::comma},
+											 {':', LexemType::colon}};
+static std::map<std::string, LexemType> keywords{{"return", LexemType::kwreturn},
+												 {"int",    LexemType::kwint},
+												 {"char",   LexemType::kwchar},
+												 {"if",     LexemType::kwif},
+												 {"else",   LexemType::kwelse},
+												 {"switch", LexemType::kwswitch},
+												 {"case",   LexemType::kwcase},
+												 {"while",  LexemType::kwwhile},
+												 {"for",    LexemType::kwfor},
+												 {"in",     LexemType::kwin},
+												 {"out",    LexemType::kwout}};
+
+class Scanner {
+private:
+	int integerValue = 0;
+	char characterValue = '\0';
+	std::string stringValue = "";
+	int currentState = 0;
+	char currentCharacter = '\0';
+	bool stopped = false;
+	std::istream &inputStream;
+public:
+	Scanner(std::istream &inputStream);
+
+	int getIntegerValue() const;
+
+	char getCharacterValue() const;
+
+	const std::string &getStringValue() const;
+
+	int getCurrentState() const;
+
+	char getCurrentCharacter() const;
+
+	Token *getNextToken();
+};
 
 #endif

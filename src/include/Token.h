@@ -1,5 +1,5 @@
-#ifndef MINI_CPP_COMPILER_TOKEN_H
-#define MINI_CPP_COMPILER_TOKEN_H
+#ifndef PROJECT_MICRIC_TOKEN_H
+#define PROJECT_MICRIC_TOKEN_H
 
 #include <string>
 
