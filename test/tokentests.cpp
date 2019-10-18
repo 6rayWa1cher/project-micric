@@ -38,7 +38,7 @@ TEST(TokenTest, ConstructorCharacter) {
 	t.print(o);
 	ASSERT_EQ("[chr, 'a']", o.str());
 	ASSERT_EQ(LexemType::chr, t.type());
-	ASSERT_EQ(0, t.value());
+    ASSERT_EQ('a', t.value());
 	ASSERT_EQ("a", t.str());
 }
 
