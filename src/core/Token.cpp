@@ -1,3 +1,4 @@
+
 #include "../include/Token.h"
 #include <iostream>
 #include <string>
@@ -15,9 +16,6 @@ std::string Token::str() {
 	return _str;
 }
 
-void Token::print(std::ostream &stream) {
-	std::cout << "[" << "]" << std::endl;
-}
 
 void Token::setType(LexemType type) {
 	this->_type = type;
@@ -30,6 +28,37 @@ void Token::setVal(int value) {
 void Token::setStr(std::string &str) {
 	this->_str = str;
 }
+
+std::string Token::toString()
+{
+	std::string str = "";
+	switch (_type)
+	{
+	case LexemType::num:
+		return str + enToStr(_type) + ", " + std::to_string(_value);
+	case LexemType::chr:
+		return str + enToStr(_type) + ", " + "'" + _str + "'";
+	case LexemType::eof:
+		return str + enToStr(_type);
+	case LexemType::error:
+	case LexemType::id:
+		return str + enToStr(_type) + ", " + "\"" + _str + "\"";
+	default:
+		if (_str != "") {
+			return str + enToStr(_type) +"\"" + _str + "\"";
+		}
+		else
+		{
+			return str + enToStr(_type);
+		}
+	}
+}
+
+void Token::print(std::ostream& stream)
+{
+	stream << "[" << toString() << "]";
+}
+
 
 std::string enToStr(LexemType type) {
 
@@ -114,3 +143,4 @@ std::string enToStr(LexemType type) {
 			return "error";
 	}
 }
+

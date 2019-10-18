@@ -58,6 +58,8 @@ public:
 
 	void setStr(std::string &str);
 
+	std::string toString();
+
 	void print(std::ostream &stream);
 };
 
