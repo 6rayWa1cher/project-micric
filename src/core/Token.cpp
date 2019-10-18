@@ -34,12 +34,26 @@ void Token::setStr(std::string &str) {
 std::string Token::toString()
 {
 	std::string str = "";
-	str += enToStr(_type);
-	str += ", ";
-	str += std::to_string(_value);
-	str += ", ";
-	str += _str;
-	return str;
+	switch (_type)
+	{
+	case LexemType::num:
+		return str + enToStr(_type) + ", " + std::to_string(_value);
+	case LexemType::chr:
+		return str + enToStr(_type) + ", " + "'" + _str + "'";
+	case LexemType::eof:
+		return str + enToStr(_type);
+	case LexemType::error:
+	case LexemType::id:
+		return str + enToStr(_type) + ", " + "\"" + _str + "\"";
+	default:
+		if (_str != "") {
+			return str + enToStr(_type) +"\"" + _str + "\"";
+		}
+		else
+		{
+			return str + enToStr(_type);
+		}
+	}
 }
 
 void Token::print(std::ostream& stream)
