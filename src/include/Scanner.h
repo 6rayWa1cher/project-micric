@@ -1,3 +1,6 @@
+//
+// Created by Konstantin Grigoriev on 16.10.2019.
+//
 #ifndef PROJECT_MICRIC_SCANNER_H
 #define PROJECT_MICRIC_SCANNER_H
 
@@ -34,9 +37,12 @@ private:
 	int currentState = 0;
 	char currentCharacter = '\0';
 	bool stopped = false;
+	Token stoppedAtToken = Token(LexemType::eof);
 	std::istream &inputStream;
 public:
 	Scanner(std::istream &inputStream);
+
+	const Token &getStoppedAtToken() const;
 
 	int getIntegerValue() const;
 
@@ -48,7 +54,7 @@ public:
 
 	char getCurrentCharacter() const;
 
-	Token *getNextToken();
+	Token getNextToken();
 };
 
 #endif

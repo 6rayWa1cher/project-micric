@@ -1,5 +1,5 @@
 //
-// Created by 6rayWa1cher on 16.10.2019.
+// Created by Konstantin Grigoriev on 16.10.2019.
 //
 
 #include "CommonUtils.h"
@@ -10,4 +10,8 @@ bool CommonUtils::isDigit(char c) {
 
 int CommonUtils::charToInt(char c) {
 	return c - '0';
+}
+
+bool CommonUtils::isLetter(char c) {
+	return ('a' <= c && c <= 'z') || ('A' <= c && c <= 'Z') || c == '_';
 }

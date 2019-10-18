@@ -1,3 +1,6 @@
+//
+// Created by Konstantin Grigoriev on 16.10.2019.
+//
 #include "../include/Scanner.h"
 #include "../lib/CommonUtils.h"
 
@@ -5,20 +8,22 @@ Scanner::Scanner(std::istream &inputStream) : inputStream(inputStream) {
 	inputStream >> currentCharacter;
 }
 
-Token *Scanner::getNextToken() {
+Token Scanner::getNextToken() {
 	if (stopped) {
-		return new Token(LexemType::eof);
+		return stoppedAtToken;
 	}
 	while (true) {
-		if (currentCharacter == '\0') {
-			inputStream >> currentCharacter;
-			if (currentCharacter == '\0' && inputStream.eof() && currentState == 0) {
+		if (currentCharacter == '\0' || currentCharacter == '\xFF') {
+			currentCharacter = inputStream.get();
+			if (inputStream.eof() && currentState == 0) {
 				stopped = true;
-				return new Token(LexemType::eof);
-			} else if (currentCharacter == '\0' && inputStream.eof() &&
+				stoppedAtToken = Token(LexemType::eof);
+				return stoppedAtToken;
+			} else if (inputStream.eof() &&
 					   (currentState == 3 || currentState == 4 || currentState == 11 || currentState == 12)) {
 				stopped = true;
-				return new Token(LexemType::error, "неожиданный конец потока");
+				stoppedAtToken = Token(LexemType::error, "неожиданный конец потока");
+				return stoppedAtToken;
 			}
 		}
 		if (currentState == 0) {
@@ -29,27 +34,64 @@ Token *Scanner::getNextToken() {
 				continue;
 			} else if (currentCharacter == '*') {
 				currentCharacter = '\0';
-				return new Token(LexemType::opmult);
+				return Token(LexemType::opmult);
 			} else if (punctuation.find(currentCharacter) != punctuation.end()) {
+				Token out(punctuation.find(currentCharacter)->second);
 				currentCharacter = '\0';
-				return new Token(punctuation.find(currentCharacter)->second);
+				return out;
+			} else if (currentCharacter == ' ') {
+				currentCharacter = '\0';
+				continue;
+			} else if (currentCharacter == '\'') {
+				currentState = 2;
+				currentCharacter = '\0';
+				continue;
 			}
+//			else if (CommonUtils::isLetter(currentCharacter)) {
+//				currentState = 5;
+//				stringValue += currentCharacter;
+//				currentCharacter = '\0';
+//				continue;
+//			}
 		} else if (currentState == 1) {
 			if (CommonUtils::isDigit(currentCharacter)) {
 				integerValue = integerValue * 10 + CommonUtils::charToInt(currentCharacter);
 				currentCharacter = '\0';
 				continue;
 			} else {
-				Token *out = new Token(integerValue);
+				Token out(integerValue);
 				currentState = 0;
 				integerValue = 0;
 				return out;
+			}
+		} else if (currentState == 2) {
+			if (currentCharacter == '\'') {
+				stopped = true;
+				return Token(LexemType::error, "пустой chr");
+			} else {
+				currentState = 3;
+				characterValue = currentCharacter;
+				currentCharacter = '\0';
+				continue;
+			}
+		} else if (currentState == 3) {
+			if (currentCharacter == '\'') {
+				Token out(characterValue);
+				currentState = 0;
+				characterValue = '\0';
+				currentCharacter = '\0';
+				return out;
+			} else {
+				stopped = true;
+				stoppedAtToken = Token(LexemType::error, "более одного символа в chr");
+				return stoppedAtToken;
 			}
 		}
 		stopped = true;
 		std::string text = "неопознанный символ ";
 		text += currentCharacter;
-		return new Token(LexemType::error, text);
+		stoppedAtToken = Token(LexemType::error, text);
+		return stoppedAtToken;
 	}
 }
 
@@ -71,4 +113,8 @@ int Scanner::getCurrentState() const {
 
 char Scanner::getCurrentCharacter() const {
 	return currentCharacter;
+}
+
+const Token &Scanner::getStoppedAtToken() const {
+	return stoppedAtToken;
 }

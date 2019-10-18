@@ -9,40 +9,121 @@
 TEST(ScannerTests, EmptyFile) {
 	std::istringstream iss("");
 	Scanner scanner(iss);
-	Token *token = scanner.getNextToken();
-	token->print(std::cerr);
-	ASSERT_EQ(LexemType::eof, token->type());
+	Token token = scanner.getNextToken();
+	token.print(std::cerr);
+	ASSERT_EQ(LexemType::eof, token.type());
 }
 
 TEST(ScannerTests, InvalidCharacter) {
 	std::istringstream iss("кот");
 	Scanner scanner(iss);
-	Token *token = scanner.getNextToken();
-	token->print(std::cerr);
-	ASSERT_EQ(LexemType::error, token->type());
+	Token token = scanner.getNextToken();
+	token.print(std::cerr);
+	ASSERT_EQ(LexemType::error, token.type());
 }
 
-TEST(ScannerTests, DigitTests) {
+TEST(ScannerTests, DigitTest) {
 	std::istringstream iss("5");
-	Scanner *scanner = new Scanner(iss);
-	Token *token = scanner->getNextToken();
-	token->print(std::cerr);
-	ASSERT_EQ(LexemType::num, token->type());
-	ASSERT_EQ(5, token->value());
-	token = scanner->getNextToken();
-	token->print(std::cerr);
-	ASSERT_EQ(LexemType::eof, token->type());
+	Scanner scanner(iss);
+	Token token = scanner.getNextToken();
+	token.print(std::cerr);
+	ASSERT_EQ(LexemType::num, token.type());
+	ASSERT_EQ(5, token.value());
+	token = scanner.getNextToken();
+	token.print(std::cerr);
+	ASSERT_EQ(LexemType::eof, token.type());
+}
 
-	iss = std::istringstream("5;");
-	scanner = new Scanner(iss);
-	token = scanner->getNextToken();
-	token->print(std::cerr);
-	ASSERT_EQ(LexemType::num, token->type());
-	ASSERT_EQ(5, token->value());
-	token = scanner->getNextToken();
-	token->print(std::cerr);
-	ASSERT_EQ(LexemType::comma, token->type());
-	token = scanner->getNextToken();
-	token->print(std::cerr);
-	ASSERT_EQ(LexemType::eof, token->type());
+
+TEST(ScannerTests, NumberTest) {
+	std::istringstream iss("42");
+	Scanner scanner(iss);
+	Token token = scanner.getNextToken();
+	token.print(std::cerr);
+	ASSERT_EQ(LexemType::num, token.type());
+	ASSERT_EQ(42, token.value());
+	token = scanner.getNextToken();
+	token.print(std::cerr);
+	ASSERT_EQ(LexemType::eof, token.type());
+}
+
+TEST(ScannerTests, DigitCommaTest) {
+	std::istringstream iss("5;");
+	Scanner scanner(iss);
+	Token token = scanner.getNextToken();
+	token.print(std::cerr);
+	ASSERT_EQ(LexemType::num, token.type());
+	ASSERT_EQ(5, token.value());
+	token = scanner.getNextToken();
+	token.print(std::cerr);
+	ASSERT_EQ(LexemType::semicolon, token.type());
+	token = scanner.getNextToken();
+	token.print(std::cerr);
+	ASSERT_EQ(LexemType::eof, token.type());
+}
+
+TEST(ScannerTests, TwoNumbersTest) {
+	std::istringstream iss("5;42");
+	Scanner scanner(iss);
+	Token token = scanner.getNextToken();
+	token.print(std::cerr);
+	ASSERT_EQ(LexemType::num, token.type());
+	ASSERT_EQ(5, token.value());
+	token = scanner.getNextToken();
+	token.print(std::cerr);
+	ASSERT_EQ(LexemType::semicolon, token.type());
+	token = scanner.getNextToken();
+	token.print(std::cerr);
+	ASSERT_EQ(LexemType::num, token.type());
+	ASSERT_EQ(42, token.value());
+	token = scanner.getNextToken();
+	token.print(std::cerr);
+	ASSERT_EQ(LexemType::eof, token.type());
+}
+
+TEST(ScannerTests, CharacterTest) {
+	std::istringstream iss("'a'");
+	Scanner scanner(iss);
+	Token token = scanner.getNextToken();
+	token.print(std::cerr);
+	ASSERT_EQ(LexemType::chr, token.type());
+	ASSERT_EQ("a", token.str());
+	token = scanner.getNextToken();
+	token.print(std::cerr);
+	ASSERT_EQ(LexemType::eof, token.type());
+}
+
+TEST(ScannerTests, InvalidCharacterTest) {
+	std::istringstream iss("'ab'");
+	Scanner scanner(iss);
+	Token token = scanner.getNextToken();
+	token.print(std::cerr);
+	ASSERT_EQ(LexemType::error, token.type());
+}
+
+TEST(ScannerTests, EmptyCharacterTest) {
+	std::istringstream iss("''");
+	Scanner scanner(iss);
+	Token token = scanner.getNextToken();
+	token.print(std::cerr);
+	ASSERT_EQ(LexemType::error, token.type());
+}
+
+TEST(ScannerTests, TwoCharactersTest) {
+	std::istringstream iss("'a';'b'");
+	Scanner scanner(iss);
+	Token token = scanner.getNextToken();
+	token.print(std::cerr);
+	ASSERT_EQ(LexemType::chr, token.type());
+	ASSERT_EQ("a", token.str());
+	token = scanner.getNextToken();
+	token.print(std::cerr);
+	ASSERT_EQ(LexemType::semicolon, token.type());
+	token = scanner.getNextToken();
+	token.print(std::cerr);
+	ASSERT_EQ(LexemType::chr, token.type());
+	ASSERT_EQ("b", token.str());
+	token = scanner.getNextToken();
+	token.print(std::cerr);
+	ASSERT_EQ(LexemType::eof, token.type());
 }
