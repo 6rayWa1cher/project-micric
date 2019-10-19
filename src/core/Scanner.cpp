@@ -58,6 +58,18 @@ Token Scanner::getNextToken() {
 				currentState = 9;
 				currentCharacter = '\0';
 				continue;
+			} else if (currentCharacter == '+') {
+				currentState = 10;
+				currentCharacter = '\0';
+				continue;
+			} else if (currentCharacter == '|') {
+				currentState = 11;
+				currentCharacter = '\0';
+				continue;
+			} else if (currentCharacter == '&') {
+				currentState = 12;
+				currentCharacter = '\0';
+				continue;
 			}
 //			else if (CommonUtils::isLetter(currentCharacter)) {
 //				currentState = 5;
@@ -131,8 +143,43 @@ Token Scanner::getNextToken() {
 				currentState = 0;
 				return out;
 			}
+		} else if (currentState == 10) {
+			if (currentCharacter == '+') {
+				Token out(LexemType::opinc);
+				currentState = 0;
+				currentCharacter = '\0';
+				return out;
+			}
+			else {
+				Token out(LexemType::opplus);
+				currentState = 0;
+				return out;
+			}
+		} else if (currentState == 11) {
+			if (currentCharacter == '|') {
+				Token out(LexemType::opor);
+				currentState = 0;
+				currentCharacter = '\0';
+				return out;
+			}
+			else {
+				stopped = true;
+				stoppedAtToken = Token(LexemType::error, "неожиданное выражение");
+				return stoppedAtToken;
+			}
+		} else if (currentState == 12) {
+			if (currentCharacter == '&') {
+				Token out(LexemType::opand);
+				currentState = 0;
+				currentCharacter = '\0';
+				return out;
+			}
+			else {
+				stopped = true;
+				stoppedAtToken = Token(LexemType::error, "неожиданное выражение");
+				return stoppedAtToken;
+			}
 		}
-		
 		stopped = true;
 		std::string text = "неопознанный символ ";
 		text += currentCharacter;
