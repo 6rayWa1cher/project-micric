@@ -46,6 +46,18 @@ Token Scanner::getNextToken() {
 				currentState = 2;
 				currentCharacter = '\0';
 				continue;
+			} else if (currentCharacter == '!') {
+				currentState = 7;
+				currentCharacter = '\0';
+				continue;
+			} else if (currentCharacter == '<') {
+				currentState = 8;
+				currentCharacter = '\0';
+				continue;
+			} else if (currentCharacter == '=') {
+				currentState = 9;
+				currentCharacter = '\0';
+				continue;
 			}
 //			else if (CommonUtils::isLetter(currentCharacter)) {
 //				currentState = 5;
@@ -86,7 +98,44 @@ Token Scanner::getNextToken() {
 				stoppedAtToken = Token(LexemType::error, "более одного символа в chr");
 				return stoppedAtToken;
 			}
+		} else if (currentState == 7) {
+			if (currentCharacter == '=') {
+				Token out(LexemType::opne);
+				currentState = 0;
+				currentCharacter = '\0';
+				return out;
+			} else {
+				Token out(LexemType::opnot);
+				currentState = 0;
+				currentCharacter = '\0';
+				return out;
+			}
+		} else if (currentState == 8) {
+			if (currentCharacter == '=') {
+				Token out(LexemType::ople);
+				currentState = 0;
+				currentCharacter = '\0';
+				return out;
+			} else {
+				Token out(LexemType::oplt);
+				currentState = 0;
+				currentCharacter = '\0';
+				return out;
+			}
+		} else if (currentState == 9) {
+			if (currentCharacter == '=') {
+				Token out(LexemType::opeq);
+				currentState = 0;
+				currentCharacter = '\0';
+				return out;
+			} else {
+				Token out(LexemType::opassign);
+				currentState = 0;
+				currentCharacter = '\0';
+				return out;
+			}
 		}
+		
 		stopped = true;
 		std::string text = "неопознанный символ ";
 		text += currentCharacter;

@@ -127,3 +127,47 @@ TEST(ScannerTests, TwoCharactersTest) {
 	token.print(std::cerr);
 	ASSERT_EQ(LexemType::eof, token.type());
 }
+
+TEST(ScannerTests, NotCharacterTest) {
+	std::istringstream iss("!");
+	Scanner scanner(iss);
+	Token token = scanner.getNextToken();
+	token.print(std::cerr);
+	ASSERT_EQ(LexemType::opnot, token.type());
+	token = scanner.getNextToken();
+	token.print(std::cerr);
+	ASSERT_EQ(LexemType::eof, token.type());
+}
+
+TEST(ScannerTests, NeCharacterTest) {
+	std::istringstream iss("!=");
+	Scanner scanner(iss);
+	Token token = scanner.getNextToken();
+	token.print(std::cerr);
+	ASSERT_EQ(LexemType::opne, token.type());
+	token = scanner.getNextToken();
+	token.print(std::cerr);
+	ASSERT_EQ(LexemType::eof, token.type());
+}
+
+TEST(ScannerTests, LtCharacterTest) {
+	std::istringstream iss("<");
+	Scanner scanner(iss);
+	Token token = scanner.getNextToken();
+	token.print(std::cerr);
+	ASSERT_EQ(LexemType::oplt, token.type());
+	token = scanner.getNextToken();
+	token.print(std::cerr);
+	ASSERT_EQ(LexemType::eof, token.type());
+}
+
+TEST(ScannerTests, LeCharacterTest) {
+	std::istringstream iss("<=");
+	Scanner scanner(iss);
+	Token token = scanner.getNextToken();
+	token.print(std::cerr);
+	ASSERT_EQ(LexemType::ople, token.type());
+	token = scanner.getNextToken();
+	token.print(std::cerr);
+	ASSERT_EQ(LexemType::eof, token.type());
+}
