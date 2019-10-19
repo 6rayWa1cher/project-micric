@@ -107,7 +107,6 @@ Token Scanner::getNextToken() {
 			} else {
 				Token out(LexemType::opnot);
 				currentState = 0;
-				currentCharacter = '\0';
 				return out;
 			}
 		} else if (currentState == 8) {
@@ -119,7 +118,6 @@ Token Scanner::getNextToken() {
 			} else {
 				Token out(LexemType::oplt);
 				currentState = 0;
-				currentCharacter = '\0';
 				return out;
 			}
 		} else if (currentState == 9) {
@@ -131,7 +129,6 @@ Token Scanner::getNextToken() {
 			} else {
 				Token out(LexemType::opassign);
 				currentState = 0;
-				currentCharacter = '\0';
 				return out;
 			}
 		}
