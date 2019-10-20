@@ -90,6 +90,7 @@ Token Scanner::getNextToken() {
 				Token out(integerValue);
 				currentState = 0;
 				integerValue = 0;
+				negativeValue = false;
 				stopAtCurrent = true;
 				return out;
 			}
