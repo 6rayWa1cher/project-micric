@@ -1,5 +1,5 @@
 //
-// Created by Konstantin Grigoriev on 16.10.2019.
+// Created by 6rayWa1cher and GabrGabr on 16.10.2019.
 //
 
 #include <gtest/gtest.h>

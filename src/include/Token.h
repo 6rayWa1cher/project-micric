@@ -1,3 +1,6 @@
+//
+// Created by GabrGabr on 15.10.2019.
+//
 #ifndef PROJECT_MICRIC_TOKEN_H
 #define PROJECT_MICRIC_TOKEN_H
 
