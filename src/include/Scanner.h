@@ -38,6 +38,7 @@ private:
 	char currentCharacter = '\0';
 	bool stopped = false;
 	bool stopAtCurrent = false;
+	bool negativeValue = false;
 	Token stoppedAtToken = Token(LexemType::eof);
 	std::istream &inputStream;
 public:

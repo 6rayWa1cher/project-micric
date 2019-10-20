@@ -192,6 +192,117 @@ TEST(ScannerTests, StringUnexpectedEOFTest) {
 	ASSERT_EQ(LexemType::error, token.type());
 }
 
+TEST(ScannerTests, MinusCharacterTest) {
+	std::istringstream iss("-");
+	Scanner scanner(iss);
+	Token token = scanner.getNextToken();
+	token.print(std::cerr);
+	ASSERT_EQ(LexemType::opminus, token.type());
+	token = scanner.getNextToken();
+	token.print(std::cerr);
+	ASSERT_EQ(LexemType::eof, token.type());
+}
+
+TEST(ScannerTests, MinusNumCharacterTest) {
+	std::istringstream iss("-4");
+	Scanner scanner(iss);
+	Token token = scanner.getNextToken();
+	token.print(std::cerr);
+	ASSERT_EQ(LexemType::num, token.type());
+	ASSERT_EQ(-4, token.value());
+	token = scanner.getNextToken();
+	token.print(std::cerr);
+	ASSERT_EQ(LexemType::eof, token.type());
+}
+
+TEST(ScannerTests, MinusNum2CharacterTest) {
+	std::istringstream iss("-10");
+	Scanner scanner(iss);
+	Token token = scanner.getNextToken();
+	token.print(std::cerr);
+	ASSERT_EQ(LexemType::num, token.type());
+	ASSERT_EQ(-10, token.value());
+	token = scanner.getNextToken();
+	token.print(std::cerr);
+	ASSERT_EQ(LexemType::eof, token.type());
+}
+
+TEST(ScannerTests, MinusNum3CharacterTest) {
+	std::istringstream iss("-12");
+	Scanner scanner(iss);
+	Token token = scanner.getNextToken();
+	token.print(std::cerr);
+	ASSERT_EQ(LexemType::num, token.type());
+	ASSERT_EQ(-12, token.value());
+	token = scanner.getNextToken();
+	token.print(std::cerr);
+	ASSERT_EQ(LexemType::eof, token.type());
+}
+
+TEST(ScannerTests, MinusTwoNumCharacterTest) {
+	std::istringstream iss("12 - 19");
+	Scanner scanner(iss);
+	Token token = scanner.getNextToken();
+	token.print(std::cerr);
+	ASSERT_EQ(LexemType::num, token.type());
+	ASSERT_EQ(12, token.value());
+	token = scanner.getNextToken();
+	token.print(std::cerr);
+	ASSERT_EQ(LexemType::opminus, token.type());
+	token = scanner.getNextToken();
+	token.print(std::cerr);
+	ASSERT_EQ(LexemType::num, token.type());
+	ASSERT_EQ(19, token.value());
+	token = scanner.getNextToken();
+	token.print(std::cerr);
+	ASSERT_EQ(LexemType::eof, token.type());
+}
+// ???
+//	TEST(ScannerTests, MinusTwoNumCharacterTest) {
+//		std::istringstream iss("12-19");
+//		Scanner scanner(iss);
+//		Token token = scanner.getNextToken();
+//		token.print(std::cerr);
+//		ASSERT_EQ(LexemType::num, token.type());
+//		ASSERT_EQ(12, token.value());
+//		token = scanner.getNextToken();
+//		token.print(std::cerr);
+//		ASSERT_EQ(LexemType::opminus, token.type());
+//		token = scanner.getNextToken();
+//		token.print(std::cerr);
+//		ASSERT_EQ(LexemType::num, token.type());
+//		ASSERT_EQ(19, token.value());
+//		token = scanner.getNextToken();
+//		token.print(std::cerr);
+//		ASSERT_EQ(LexemType::eof, token.type());
+//	}
+// ???
+
+TEST(ScannerTests, MinusTwoNum2CharacterTest) {
+	std::istringstream iss("12 + (-19)");
+	Scanner scanner(iss);
+	Token token = scanner.getNextToken();
+	token.print(std::cerr);
+	ASSERT_EQ(LexemType::num, token.type());
+	ASSERT_EQ(12, token.value());
+	token = scanner.getNextToken();
+	token.print(std::cerr);
+	ASSERT_EQ(LexemType::opplus, token.type());
+	token = scanner.getNextToken();
+	token.print(std::cerr);
+	ASSERT_EQ(LexemType::lpar, token.type());
+	token = scanner.getNextToken();
+	token.print(std::cerr);
+	ASSERT_EQ(LexemType::num, token.type());
+	ASSERT_EQ(-19, token.value());
+	token = scanner.getNextToken();
+	token.print(std::cerr);
+	ASSERT_EQ(LexemType::rpar, token.type());
+	token = scanner.getNextToken();
+	token.print(std::cerr);
+	ASSERT_EQ(LexemType::eof, token.type());
+}
+
 TEST(ScannerTests, NotCharacterTest) {
 	std::istringstream iss("!");
 	Scanner scanner(iss);

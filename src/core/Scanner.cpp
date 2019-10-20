@@ -73,10 +73,18 @@ Token Scanner::getNextToken() {
 				currentState = 5;
 				stringValue += currentCharacter;
 				continue;
-			}
+			} else if (currentCharacter == '-') {
+				currentState = 6;
+				continue;
+			} 
 		} else if (currentState == 1) {
 			if (CommonUtils::isDigit(currentCharacter)) {
-				integerValue = integerValue * 10 + CommonUtils::charToInt(currentCharacter);
+				if (negativeValue) {
+					integerValue = integerValue * 10 - CommonUtils::charToInt(currentCharacter);
+				}
+				else {
+					integerValue = integerValue * 10 + CommonUtils::charToInt(currentCharacter);
+				}
 				continue;
 			} else {
 				Token out(integerValue);
@@ -126,7 +134,19 @@ Token Scanner::getNextToken() {
 				return out;
 			} else {
 				Token out(LexemType::id, stringValue);
-				stringValue = "";
+				//stringValue = "";
+				currentState = 0;
+				stopAtCurrent = true;
+				return out;
+			}
+		} else if (currentState == 6) {
+			if (CommonUtils::isDigit(currentCharacter)) {
+				integerValue = (-1) * CommonUtils::charToInt(currentCharacter);
+				currentState = 1;
+				negativeValue = true;
+				continue;
+			} else {
+				Token out(LexemType::opminus);
 				currentState = 0;
 				stopAtCurrent = true;
 				return out;
