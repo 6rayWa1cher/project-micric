@@ -28,6 +28,10 @@ private:
 
 public:
 
+	Token() {
+		_type = LexemType::error;
+	}
+
 	Token(LexemType type) {
 		_type = type;
 	}
@@ -54,12 +58,6 @@ public:
 	int value();
 
 	std::string str();
-
-	void setType(LexemType type);
-
-	void setVal(int value);
-
-	void setStr(std::string &str);
 
 	std::string toString();
 

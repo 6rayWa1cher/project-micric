@@ -46,4 +46,5 @@ public:
 	Token getNextToken();
 };
 
+Scanner &operator>>(Scanner &scanner, Token &token);
 #endif

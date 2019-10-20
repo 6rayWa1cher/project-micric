@@ -8,6 +8,12 @@ Scanner::Scanner(std::istream &inputStream) : inputStream(inputStream) {
 
 }
 
+Scanner &operator>>(Scanner &scanner, Token &token) {
+	token = scanner.getNextToken();
+	return scanner;
+}
+
+
 Token Scanner::getNextToken() {
 	if (stopped) {
 		return stoppedAtToken;
@@ -60,12 +66,14 @@ Token Scanner::getNextToken() {
 			} else if (currentCharacter == '&') {
 				currentState = 12;
 				continue;
+			} else if (currentCharacter == '"') {
+				currentState = 4;
+				continue;
+			} else if (CommonUtils::isLetter(currentCharacter)) {
+				currentState = 5;
+				stringValue += currentCharacter;
+				continue;
 			}
-//			else if (CommonUtils::isLetter(currentCharacter)) {
-//				currentState = 5;
-//				stringValue += currentCharacter;
-//				continue;
-//			}
 		} else if (currentState == 1) {
 			if (CommonUtils::isDigit(currentCharacter)) {
 				integerValue = integerValue * 10 + CommonUtils::charToInt(currentCharacter);
@@ -90,12 +98,38 @@ Token Scanner::getNextToken() {
 			if (currentCharacter == '\'') {
 				Token out(characterValue);
 				currentState = 0;
-				characterValue = '\0';
 				return out;
 			} else {
 				stopped = true;
 				stoppedAtToken = Token(LexemType::error, "более одного символа в chr");
 				return stoppedAtToken;
+			}
+		} else if (currentState == 4) {
+			if (currentCharacter == '"') {
+				Token out(LexemType::str, stringValue);
+				currentState = 0;
+				stringValue = "";
+				return out;
+			} else {
+				stringValue += currentCharacter;
+				continue;
+			}
+		} else if (currentState == 5) {
+			if (CommonUtils::isLetter(currentCharacter) || CommonUtils::isDigit(currentCharacter)) {
+				stringValue += currentCharacter;
+				continue;
+			} else if (keywords.find(stringValue) != keywords.end()) {
+				Token out(keywords.find(stringValue)->second);
+				stringValue = "";
+				currentState = 0;
+				stopAtCurrent = true;
+				return out;
+			} else {
+				Token out(LexemType::id, stringValue);
+				stringValue = "";
+				currentState = 0;
+				stopAtCurrent = true;
+				return out;
 			}
 		} else if (currentState == 7) {
 			if (currentCharacter == '=') {
