@@ -135,7 +135,7 @@ Token Scanner::getNextToken() {
 				return out;
 			} else {
 				Token out(LexemType::id, stringValue);
-				//stringValue = "";
+				stringValue = "";
 				currentState = 0;
 				stopAtCurrent = true;
 				return out;
