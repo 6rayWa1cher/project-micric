@@ -997,3 +997,31 @@ TEST(ScannerTests, CharMasCharacterTest) {
 	ASSERT_EQ(LexemType::eof, token.type());
 }
 
+TEST(ScannerTests, GtPlusNotStatementTest) {
+	std::istringstream iss("10+20>!a");
+	Scanner scanner(iss);
+	Token token = scanner.getNextToken();
+	token.print(std::cerr);
+	ASSERT_EQ(LexemType::num, token.type());
+	ASSERT_EQ(10, token.value());
+	scanner >> token;
+	token.print(std::cerr);
+	ASSERT_EQ(LexemType::opplus, token.type());
+	scanner >> token;
+	token.print(std::cerr);
+	ASSERT_EQ(LexemType::num, token.type());
+	ASSERT_EQ(20, token.value());
+	scanner >> token;
+	token.print(std::cerr);
+	ASSERT_EQ(LexemType::opgt, token.type());
+	scanner >> token;
+	token.print(std::cerr);
+	ASSERT_EQ(LexemType::opnot, token.type());
+	scanner >> token;
+	token.print(std::cerr);
+	ASSERT_EQ(LexemType::id, token.type());
+	ASSERT_EQ("a", token.str());
+	scanner >> token;
+	token.print(std::cerr);
+	ASSERT_EQ(LexemType::eof, token.type());
+}

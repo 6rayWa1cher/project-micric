@@ -76,7 +76,9 @@ Token Scanner::getNextToken() {
 			} else if (currentCharacter == '-') {
 				currentState = 6;
 				continue;
-			} 
+			} else if (currentCharacter == '>') {
+				return Token(LexemType::opgt);
+			}
 		} else if (currentState == 1) {
 			if (CommonUtils::isDigit(currentCharacter)) {
 				if (negativeValue) {
