@@ -34,7 +34,7 @@ std::string Token::toString()
 		return str + enToStr(_type) + ", " + "\"" + _str + "\"";
 	default:
 		if (!_str.empty()) {
-			return str + enToStr(_type) +"\"" + _str + "\"";
+			return str + enToStr(_type) + ", "  +"\"" + _str + "\"";
 		}
 		else
 		{
@@ -45,7 +45,7 @@ std::string Token::toString()
 
 void Token::print(std::ostream& stream)
 {
-	stream << "[" << toString() << "]";
+	stream << "[" << toString() << "]" << std::endl;
 }
 
 

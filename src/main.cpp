@@ -1,14 +1,23 @@
 #include <iostream>
+#include <fstream>
 #include "include/Token.h"
+#include "include/Scanner.h"
 
 
 int main() {
-	std::cout << "Hello, World!" << std::endl;
-	LexemType fru = LexemType::chr;
-	Token token('a');
-	std::cout << token.value() << std::endl;
-	std::cout << token.str() << std::endl;
-	std::cout << enToStr(token.type()) << std::endl;
-	//enToStr(fru);
-	return 0;
-}
+	std::ifstream ifile;
+	ifile.open("test.txt");
+	Scanner scanner(ifile);
+	if (!ifile) {
+		std::cout << "Failed to open" << std::endl;
+	}
+	else {
+		for (;;) {
+			Token currentLexem = scanner.getNextToken();
+			currentLexem.print(std::cout);
+			if (currentLexem.type() == LexemType::error || currentLexem.type() == LexemType::eof) {
+				break;
+			}
+		}
+	}
+}

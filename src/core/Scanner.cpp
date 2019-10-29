@@ -43,7 +43,7 @@ Token Scanner::getNextToken() {
 			} else if (punctuation.find(currentCharacter) != punctuation.end()) {
 				Token out(punctuation.find(currentCharacter)->second);
 				return out;
-			} else if (currentCharacter == ' ') {
+			} else if (currentCharacter == ' ' || currentCharacter == '\n') {
 				continue;
 			} else if (currentCharacter == '\'') {
 				currentState = 2;
