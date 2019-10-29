@@ -1,5 +1,8 @@
-#ifndef MINI_CPP_COMPILER_TOKEN_H
-#define MINI_CPP_COMPILER_TOKEN_H
+//
+// Created by GabrGabr on 15.10.2019.
+//
+#ifndef PROJECT_MICRIC_TOKEN_H
+#define PROJECT_MICRIC_TOKEN_H
 
 #include <string>
 
@@ -24,6 +27,10 @@ private:
 
 
 public:
+
+	Token() {
+		_type = LexemType::error;
+	}
 
 	Token(LexemType type) {
 		_type = type;
@@ -51,12 +58,6 @@ public:
 	int value();
 
 	std::string str();
-
-	void setType(LexemType type);
-
-	void setVal(int value);
-
-	void setStr(std::string &str);
 
 	std::string toString();
 

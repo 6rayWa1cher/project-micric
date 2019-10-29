@@ -1,4 +1,6 @@
-
+//
+// Created by GabrGabr on 15.10.2019.
+//
 #include "../include/Token.h"
 #include <iostream>
 #include <string>
@@ -16,22 +18,9 @@ std::string Token::str() {
 	return _str;
 }
 
-
-void Token::setType(LexemType type) {
-	this->_type = type;
-}
-
-void Token::setVal(int value) {
-	this->_value = value;
-}
-
-void Token::setStr(std::string &str) {
-	this->_str = str;
-}
-
 std::string Token::toString()
 {
-	std::string str = "";
+	std::string str;
 	switch (_type)
 	{
 	case LexemType::num:
@@ -44,7 +33,7 @@ std::string Token::toString()
 	case LexemType::id:
 		return str + enToStr(_type) + ", " + "\"" + _str + "\"";
 	default:
-		if (_str != "") {
+		if (!_str.empty()) {
 			return str + enToStr(_type) +"\"" + _str + "\"";
 		}
 		else

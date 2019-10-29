@@ -9,8 +9,6 @@ int main() {
 	std::cout << token.value() << std::endl;
 	std::cout << token.str() << std::endl;
 	std::cout << enToStr(token.type()) << std::endl;
-	std::string str = token.toString();
-	std::cout << std::endl;
-	token.print(std::cout);
+	//enToStr(fru);
 	return 0;
 }
