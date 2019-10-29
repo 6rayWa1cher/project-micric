@@ -1,5 +1,5 @@
 //
-// Created by 6rayWa1cher and GabrGabr and Elikeid on 16.10.2019.
+// Created by 6rayWa1cher, GabrGabr and Elikeid on 16.10.2019.
 //
 
 

@@ -1,3 +1,7 @@
+//
+// Created by GabrGabr and 6rayWa1cher on 29.10.2019.
+//
+
 #include <iostream>
 #include <fstream>
 #include "include/Token.h"
@@ -5,7 +9,7 @@
 
 
 int main(int argc, char **argv) {
-	std::ifstream ifile;
+    std::ifstream ifile;
     std::string filename, input, output;
     int i = 1;
     while (i < argc) {
@@ -30,10 +34,10 @@ int main(int argc, char **argv) {
         }
     }
     ifile.open(filename);
-	Scanner scanner(ifile);
-	if (!ifile) {
-		std::cout << "Failed to open" << std::endl;
-	}
+    Scanner scanner(ifile);
+    if (!ifile) {
+        std::cout << "Failed to open" << std::endl;
+    }
     std::cout << "Opened input: " << filename << std::endl;
     std::ofstream ofile;
     ofile.open(output);
