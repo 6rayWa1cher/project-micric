@@ -11,12 +11,23 @@
 int main(int argc, char **argv) {
 	std::ifstream ifile;
 	std::string filename, input, output;
+	bool printLexems = false;
 	int i = 1;
+	if (argc == 1 || (argc == 2 && std::string(argv[1]) == "-h") || (argc == 2 && std::string(argv[1]) == "--help")) {
+		std::cout << "Usage:" << std::endl
+				  << '\t' << "micric [options] [target]" << std::endl
+				  << '\t' << "micric [options] -i [target]" << std::endl
+				  << "Options:" << std::endl
+				  << '\t' << "-i file" << '\t' << "Set target file" << std::endl
+				  << '\t' << "-o file" << '\t' << "Set output file" << std::endl
+				  << '\t' << "-lc" << '\t' << "Print lexems in console";
+		return 1;
+	}
 	while (i < argc) {
 		input = std::string(argv[i]);
 		if (input == "-i") {
 			if (argc <= i + 1) {
-				std::cerr << "Empty -f" << std::endl;
+				std::cerr << "Empty -i" << std::endl;
 				return 1;
 			}
 			filename = argv[i + 1];
@@ -28,6 +39,9 @@ int main(int argc, char **argv) {
 			}
 			output = argv[i + 1];
 			i += 2;
+		} else if (input == "-lc") {
+			printLexems = true;
+			++i;
 		} else {
 			filename = input;
 			++i;
@@ -36,20 +50,36 @@ int main(int argc, char **argv) {
 	ifile.open(filename);
 	Scanner scanner(ifile);
 	if (!ifile) {
-		std::cout << "Failed to open" << std::endl;
+		std::cerr << "Failed to open input file" << std::endl;
+		return 1;
 	}
 	std::cout << "Opened input: " << filename << std::endl;
 	std::ofstream ofile;
-	ofile.open(output);
-	if (ofile) {
-		std::cout << "Opened output: " << output << std::endl;
+	if (!printLexems) {
+		if (output.empty()) {
+			ofile.open(filename + ".o");
+		} else {
+			ofile.open(output);
+		}
+		if (ofile) {
+			std::cout << "Opened output: " << (output.empty() ? filename + ".o" : output) << std::endl;
+		}
+		if (!ofile && !output.empty() && !printLexems) {
+			std::cerr << "Failed to create output file" << std::endl;
+			return 1;
+		}
 	}
 	Token currentLexem;
-	std::ostream &ostream = !ofile ? std::cout : ofile;
 	do {
 		currentLexem = scanner.getNextToken();
-		currentLexem.print(ostream);
-		ostream << std::endl;
+		if (printLexems) {
+			currentLexem.print(std::cout);
+			std::cout << std::endl;
+		}
+		if (ofile) {
+			currentLexem.print(ofile);
+			ofile << std::endl;
+		}
 		if (currentLexem.type() == LexemType::error) {
 			std::cerr << "Lexical analysis error: " << std::endl
 					  << "Position " << scanner.getRowPos() << ':'
