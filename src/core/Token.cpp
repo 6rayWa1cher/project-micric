@@ -45,7 +45,7 @@ std::string Token::toString()
 
 void Token::print(std::ostream& stream)
 {
-	stream << "[" << toString() << "]" << std::endl;
+    stream << "[" << toString() << "]";
 }
 
 

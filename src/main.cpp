@@ -45,9 +45,17 @@ int main(int argc, char **argv) {
         std::cout << "Opened output: " << output << std::endl;
     }
     Token currentLexem;
+    std::ostream &ostream = !ofile ? std::cout : ofile;
     do {
         currentLexem = scanner.getNextToken();
-        currentLexem.print(!ofile ? std::cout : ofile);
+        currentLexem.print(ostream);
+        ostream << std::endl;
+        if (currentLexem.type() == LexemType::error) {
+            std::cerr << "Lexical analysis error: " << std::endl
+                      << "Position " << scanner.getRowPos() << ':'
+                      << scanner.getColPos() << ": " << currentLexem.str() << std::endl;
+            return 2;
+        }
     } while (!(currentLexem.type() == LexemType::error || currentLexem.type() == LexemType::eof));
     ifile.close();
     ofile.close();
