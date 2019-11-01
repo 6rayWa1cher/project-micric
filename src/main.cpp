@@ -64,7 +64,7 @@ int main(int argc, char **argv) {
 		if (ofile) {
 			std::cout << "Opened output: " << (output.empty() ? filename + ".o" : output) << std::endl;
 		}
-		if (!ofile && !output.empty() && !printLexems) {
+		if (!ofile && !output.empty()) {
 			std::cerr << "Failed to create output file" << std::endl;
 			return 1;
 		}
