@@ -28,11 +28,17 @@ Token Scanner::getNextToken() {
 			} else if (inputStream.eof() &&
 					   (currentState == 3 || currentState == 4 || currentState == 11 || currentState == 12)) {
 				stopped = true;
-				stoppedAtToken = Token(LexemType::error, "неожиданный конец потока");
+				stoppedAtToken = Token(LexemType::error, "unexpected EOF");
 				return stoppedAtToken;
 			}
 		}
 		stopAtCurrent = false;
+		if (currentCharacter == '\n') {
+			colPos = 1;
+			++rowPos;
+		} else {
+			++colPos;
+		}
 		if (currentState == 0) {
 			if (CommonUtils::isDigit(currentCharacter)) {
 				currentState = 1;
@@ -43,7 +49,7 @@ Token Scanner::getNextToken() {
 			} else if (punctuation.find(currentCharacter) != punctuation.end()) {
 				Token out(punctuation.find(currentCharacter)->second);
 				return out;
-			} else if (currentCharacter == ' ') {
+			} else if (currentCharacter == ' ' || currentCharacter == '\n') {
 				continue;
 			} else if (currentCharacter == '\'') {
 				currentState = 2;
@@ -83,8 +89,7 @@ Token Scanner::getNextToken() {
 			if (CommonUtils::isDigit(currentCharacter)) {
 				if (negativeValue) {
 					integerValue = integerValue * 10 - CommonUtils::charToInt(currentCharacter);
-				}
-				else {
+				} else {
 					integerValue = integerValue * 10 + CommonUtils::charToInt(currentCharacter);
 				}
 				continue;
@@ -99,7 +104,7 @@ Token Scanner::getNextToken() {
 		} else if (currentState == 2) {
 			if (currentCharacter == '\'') {
 				stopped = true;
-				return Token(LexemType::error, "пустой chr");
+				return Token(LexemType::error, "empty chr");
 			} else {
 				currentState = 3;
 				characterValue = currentCharacter;
@@ -112,7 +117,7 @@ Token Scanner::getNextToken() {
 				return out;
 			} else {
 				stopped = true;
-				stoppedAtToken = Token(LexemType::error, "более одного символа в chr");
+				stoppedAtToken = Token(LexemType::error, "invalid chr");
 				return stoppedAtToken;
 			}
 		} else if (currentState == 4) {
@@ -205,7 +210,7 @@ Token Scanner::getNextToken() {
 				return out;
 			} else {
 				stopped = true;
-				stoppedAtToken = Token(LexemType::error, "неожиданное выражение: ожидается ||");
+				stoppedAtToken = Token(LexemType::error, "unexpected statement: expected ||");
 				return stoppedAtToken;
 			}
 		} else if (currentState == 12) {
@@ -215,14 +220,22 @@ Token Scanner::getNextToken() {
 				return out;
 			} else {
 				stopped = true;
-				stoppedAtToken = Token(LexemType::error, "неожиданное выражение: ожидается &&");
+				stoppedAtToken = Token(LexemType::error, "unexpected statement: expected &&");
 				return stoppedAtToken;
 			}
 		}
 		stopped = true;
-		std::string text = "неопознанный символ ";
+		std::string text = "unknown symbol ";
 		text += currentCharacter;
 		stoppedAtToken = Token(LexemType::error, text);
 		return stoppedAtToken;
 	}
+}
+
+int Scanner::getColPos() const {
+	return colPos;
+}
+
+int Scanner::getRowPos() const {
+	return rowPos;
 }

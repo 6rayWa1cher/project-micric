@@ -1,0 +1,4 @@
+char str[] = "Hello, world!";
+int a = 5;
+char c = 'c';
+a = a + c;

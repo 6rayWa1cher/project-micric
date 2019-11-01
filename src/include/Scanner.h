@@ -39,13 +39,20 @@ private:
 	bool stopped = false;
 	bool stopAtCurrent = false;
 	bool negativeValue = false;
+	int colPos = 1;
+	int rowPos = 1;
 	Token stoppedAtToken = Token(LexemType::eof);
 	std::istream &inputStream;
 public:
 	Scanner(std::istream &inputStream);
 
+	int getColPos() const;
+
+	int getRowPos() const;
+
 	Token getNextToken();
 };
 
 Scanner &operator>>(Scanner &scanner, Token &token);
+
 #endif
