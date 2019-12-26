@@ -3,7 +3,7 @@
 //
 
 #include <gtest/gtest.h>
-#include "../src/include/Token.h"
+#include "Token.h"
 
 TEST(Lexem_type, To_String) {
 	ASSERT_EQ("num", enToStr(LexemType::num));

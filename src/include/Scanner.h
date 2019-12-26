@@ -6,28 +6,29 @@
 
 #include <map>
 #include <istream>
+#include <stack>
 #include "Token.h"
 
 static std::map<char, LexemType> punctuation{{'[', LexemType::lbracket},
-											 {']', LexemType::rbracket},
-											 {'(', LexemType::lpar},
-											 {')', LexemType::rpar},
-											 {'{', LexemType::lbrace},
-											 {'}', LexemType::rbrace},
-											 {';', LexemType::semicolon},
-											 {',', LexemType::comma},
-											 {':', LexemType::colon}};
+                                             {']', LexemType::rbracket},
+                                             {'(', LexemType::lpar},
+                                             {')', LexemType::rpar},
+                                             {'{', LexemType::lbrace},
+                                             {'}', LexemType::rbrace},
+                                             {';', LexemType::semicolon},
+                                             {',', LexemType::comma},
+                                             {':', LexemType::colon}};
 static std::map<std::string, LexemType> keywords{{"return", LexemType::kwreturn},
-												 {"int",    LexemType::kwint},
-												 {"char",   LexemType::kwchar},
-												 {"if",     LexemType::kwif},
-												 {"else",   LexemType::kwelse},
-												 {"switch", LexemType::kwswitch},
-												 {"case",   LexemType::kwcase},
-												 {"while",  LexemType::kwwhile},
-												 {"for",    LexemType::kwfor},
-												 {"in",     LexemType::kwin},
-												 {"out",    LexemType::kwout}};
+                                                 {"int",    LexemType::kwint},
+                                                 {"char",   LexemType::kwchar},
+                                                 {"if",     LexemType::kwif},
+                                                 {"else",   LexemType::kwelse},
+                                                 {"switch", LexemType::kwswitch},
+                                                 {"case",   LexemType::kwcase},
+                                                 {"while",  LexemType::kwwhile},
+                                                 {"for",    LexemType::kwfor},
+                                                 {"in",     LexemType::kwin},
+                                                 {"out",    LexemType::kwout}};
 
 class Scanner {
 private:
@@ -42,15 +43,18 @@ private:
 	int colPos = 1;
 	int rowPos = 1;
 	Token stoppedAtToken = Token(LexemType::eof);
-	std::istream &inputStream;
+	std::stack<Token> pushedBack;
+	std::istream& inputStream;
 public:
-	Scanner(std::istream &inputStream);
+	explicit Scanner(std::istream& inputStream);
 
 	int getColPos() const;
 
 	int getRowPos() const;
 
 	Token getNextToken();
+
+	void pushBack(const Token& token);
 };
 
 Scanner &operator>>(Scanner &scanner, Token &token);

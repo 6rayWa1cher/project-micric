@@ -62,7 +62,11 @@ public:
 	std::string toString();
 
 	void print(std::ostream &stream);
-};
 
+	bool operator==(const Token& rhs) const;
+
+	bool operator!=(const Token& rhs) const;
+
+};
 
 #endif
