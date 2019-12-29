@@ -1,7 +1,7 @@
 //
 // Created by GabrGabr on 15.10.2019.
 //
-#include "../include/Token.h"
+#include "Token.h"
 #include <iostream>
 #include <string>
 
@@ -126,5 +126,15 @@ std::string enToStr(LexemType type) {
 		case LexemType::error:
 			return "error";
 	}
+}
+
+bool Token::operator==(const Token& rhs) const {
+	return _type == rhs._type &&
+	       _value == rhs._value &&
+	       _str == rhs._str;
+}
+
+bool Token::operator!=(const Token& rhs) const {
+	return !(rhs == *this);
 }
 

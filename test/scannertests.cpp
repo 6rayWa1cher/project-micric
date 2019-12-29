@@ -4,8 +4,8 @@
 
 
 #include <gtest/gtest.h>
-#include "../src/include/Token.h"
-#include "../src/include/Scanner.h"
+#include "Token.h"
+#include "Scanner.h"
 
 
 TEST(ScannerTests, EmptyFile) {
@@ -1024,4 +1024,25 @@ TEST(ScannerTests, GtPlusNotStatementTest) {
 	scanner >> token;
 	token.print(std::cerr);
 	ASSERT_EQ(LexemType::eof, token.type());
+}
+
+TEST(ScannerTests, PushBack) {
+	std::istringstream iss("10+a");
+	Scanner scanner(iss);
+	Token token1 = scanner.getNextToken();
+	token1.print(std::cerr);
+	ASSERT_EQ(LexemType::num, token1.type());
+	scanner.pushBack(token1);
+	ASSERT_EQ(token1, scanner.getNextToken());
+
+	Token token2 = scanner.getNextToken();
+	token2.print(std::cerr);
+	ASSERT_EQ(LexemType::opplus, token2.type());
+	Token token3 = scanner.getNextToken();
+	token1.print(std::cerr);
+	ASSERT_EQ(LexemType::id, token3.type());
+	scanner.pushBack(token3);
+	scanner.pushBack(token2);
+	ASSERT_EQ(token2, scanner.getNextToken());
+	ASSERT_EQ(token3, scanner.getNextToken());
 }

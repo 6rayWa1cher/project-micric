@@ -1,11 +1,12 @@
 //
 // Created by 6rayWa1cher and GabrGabr on 16.10.2019.
 //
-#include "../include/Scanner.h"
+#include "Scanner.h"
+
 #include "../lib/CommonUtils.h"
+#include <sstream>
 
-Scanner::Scanner(std::istream &inputStream) : inputStream(inputStream) {
-
+Scanner::Scanner(std::istream& is) : inputStream(is) {
 }
 
 Scanner &operator>>(Scanner &scanner, Token &token) {
@@ -18,6 +19,12 @@ Token Scanner::getNextToken() {
 	if (stopped) {
 		return stoppedAtToken;
 	}
+	if (!pushedBack.empty()) {
+		Token& token = pushedBack.top();
+		pushedBack.pop();
+		return token;
+	}
+
 	while (true) {
 		if (!stopAtCurrent || inputStream.eof()) {
 			currentCharacter = inputStream.get();
@@ -26,7 +33,7 @@ Token Scanner::getNextToken() {
 				stoppedAtToken = Token(LexemType::eof);
 				return stoppedAtToken;
 			} else if (inputStream.eof() &&
-					   (currentState == 3 || currentState == 4 || currentState == 11 || currentState == 12)) {
+			           (currentState == 3 || currentState == 4 || currentState == 11 || currentState == 12)) {
 				stopped = true;
 				stoppedAtToken = Token(LexemType::error, "unexpected EOF");
 				return stoppedAtToken;
@@ -49,7 +56,7 @@ Token Scanner::getNextToken() {
 			} else if (punctuation.find(currentCharacter) != punctuation.end()) {
 				Token out(punctuation.find(currentCharacter)->second);
 				return out;
-			} else if (currentCharacter == ' ' || currentCharacter == '\n') {
+			} else if (currentCharacter == ' ' || currentCharacter == '\t' || currentCharacter == '\n') {
 				continue;
 			} else if (currentCharacter == '\'') {
 				currentState = 2;
@@ -238,4 +245,8 @@ int Scanner::getColPos() const {
 
 int Scanner::getRowPos() const {
 	return rowPos;
+}
+
+void Scanner::pushBack(const Token& token) {
+	pushedBack.push(token);
 }
