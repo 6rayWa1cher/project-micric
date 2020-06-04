@@ -6,8 +6,9 @@ set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
-set(CMAKE_CXX_FLAGS "-Wno-deprecated-declarations")
-
+if (MINGW)
+	set(CMAKE_CXX_FLAGS "-Wno-deprecated-declarations")
+endif ()
 #Requires CMake 3.16+
 include(FetchContent)
 

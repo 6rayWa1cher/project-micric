@@ -126,6 +126,7 @@ std::string enToStr(LexemType type) {
 		case LexemType::error:
 			return "error";
 	}
+	return "WAT?";
 }
 
 bool Token::operator==(const Token& rhs) const {
