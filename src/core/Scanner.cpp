@@ -20,7 +20,7 @@ Token Scanner::getNextToken() {
 		return stoppedAtToken;
 	}
 	if (!pushedBack.empty()) {
-		Token& token = pushedBack.top();
+		Token token = pushedBack.top();
 		pushedBack.pop();
 		return token;
 	}
