@@ -1046,3 +1046,101 @@ TEST(ScannerTests, PushBack) {
 	ASSERT_EQ(token2, scanner.getNextToken());
 	ASSERT_EQ(token3, scanner.getNextToken());
 }
+
+TEST(ScannerTests, Positions) {
+	std::istringstream iss("10+name 0&&2\n"
+	                       " || 3'w'\"leet\"\n"
+	                       "<=<>!2- 1\"ab\n"
+	                       "cd\"=!=b*");
+	Scanner scanner(iss);
+	ASSERT_EQ(0, scanner.getColPos());
+	ASSERT_EQ(1, scanner.getRowPos());
+
+	scanner.getNextToken(); // 10
+	ASSERT_EQ(2, scanner.getColPos());
+	ASSERT_EQ(1, scanner.getRowPos());
+
+	scanner.getNextToken(); // +
+	ASSERT_EQ(3, scanner.getColPos());
+	ASSERT_EQ(1, scanner.getRowPos());
+
+	scanner.getNextToken(); // name
+	ASSERT_EQ(7, scanner.getColPos());
+	ASSERT_EQ(1, scanner.getRowPos());
+
+	scanner.getNextToken(); // 0
+	ASSERT_EQ(9, scanner.getColPos());
+	ASSERT_EQ(1, scanner.getRowPos());
+
+	scanner.getNextToken(); // &&
+	ASSERT_EQ(11, scanner.getColPos());
+	ASSERT_EQ(1, scanner.getRowPos());
+
+	scanner.getNextToken(); // 2
+	ASSERT_EQ(12, scanner.getColPos());
+	ASSERT_EQ(1, scanner.getRowPos());
+
+	scanner.getNextToken(); // ||
+	ASSERT_EQ(3, scanner.getColPos());
+	ASSERT_EQ(2, scanner.getRowPos());
+
+	scanner.getNextToken(); // 3
+	ASSERT_EQ(5, scanner.getColPos());
+	ASSERT_EQ(2, scanner.getRowPos());
+
+	scanner.getNextToken(); // 'w'
+	ASSERT_EQ(8, scanner.getColPos());
+	ASSERT_EQ(2, scanner.getRowPos());
+
+	scanner.getNextToken(); // "leet"
+	ASSERT_EQ(14, scanner.getColPos());
+	ASSERT_EQ(2, scanner.getRowPos());
+
+	scanner.getNextToken(); // <=
+	ASSERT_EQ(2, scanner.getColPos());
+	ASSERT_EQ(3, scanner.getRowPos());
+
+	scanner.getNextToken(); // <
+	ASSERT_EQ(3, scanner.getColPos());
+	ASSERT_EQ(3, scanner.getRowPos());
+
+	scanner.getNextToken(); // >
+	ASSERT_EQ(4, scanner.getColPos());
+	ASSERT_EQ(3, scanner.getRowPos());
+
+	scanner.getNextToken(); // !
+	ASSERT_EQ(5, scanner.getColPos());
+	ASSERT_EQ(3, scanner.getRowPos());
+
+	scanner.getNextToken(); // 2
+	ASSERT_EQ(6, scanner.getColPos());
+	ASSERT_EQ(3, scanner.getRowPos());
+
+	scanner.getNextToken(); // -
+	ASSERT_EQ(7, scanner.getColPos());
+	ASSERT_EQ(3, scanner.getRowPos());
+
+	scanner.getNextToken(); // 1
+	ASSERT_EQ(9, scanner.getColPos());
+	ASSERT_EQ(3, scanner.getRowPos());
+
+	scanner.getNextToken(); // "ab\ncd""
+	ASSERT_EQ(3, scanner.getColPos());
+	ASSERT_EQ(4, scanner.getRowPos());
+
+	scanner.getNextToken(); // =
+	ASSERT_EQ(4, scanner.getColPos());
+	ASSERT_EQ(4, scanner.getRowPos());
+
+	scanner.getNextToken(); // !=
+	ASSERT_EQ(6, scanner.getColPos());
+	ASSERT_EQ(4, scanner.getRowPos());
+
+	scanner.getNextToken(); // b
+	ASSERT_EQ(7, scanner.getColPos());
+	ASSERT_EQ(4, scanner.getRowPos());
+
+	scanner.getNextToken(); // *
+	ASSERT_EQ(8, scanner.getColPos());
+	ASSERT_EQ(4, scanner.getRowPos());
+}

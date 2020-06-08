@@ -40,7 +40,9 @@ private:
 	bool stopped = false;
 	bool stopAtCurrent = false;
 	bool negativeValue = false;
-	int colPos = 1;
+	int prevColPos = 0;
+	int prevRowPos = 1;
+	int colPos = 0;
 	int rowPos = 1;
 	Token stoppedAtToken = Token(LexemType::eof);
 	std::stack<Token> pushedBack;
@@ -55,6 +57,9 @@ public:
 	Token getNextToken();
 
 	void pushBack(const Token& token);
+
+private:
+	void setPrevPos();
 };
 
 Scanner &operator>>(Scanner &scanner, Token &token);

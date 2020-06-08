@@ -41,9 +41,13 @@ Token Scanner::getNextToken() {
 		}
 		stopAtCurrent = false;
 		if (currentCharacter == '\n') {
-			colPos = 1;
+			prevColPos = colPos;
+			colPos = 0;
+			prevRowPos = rowPos;
 			++rowPos;
 		} else {
+			prevColPos = colPos;
+			prevRowPos = rowPos;
 			++colPos;
 		}
 		if (currentState == 0) {
@@ -105,6 +109,7 @@ Token Scanner::getNextToken() {
 				currentState = 0;
 				integerValue = 0;
 				negativeValue = false;
+				setPrevPos();
 				stopAtCurrent = true;
 				return out;
 			}
@@ -145,12 +150,14 @@ Token Scanner::getNextToken() {
 				Token out(keywords.find(stringValue)->second);
 				stringValue = "";
 				currentState = 0;
+				setPrevPos();
 				stopAtCurrent = true;
 				return out;
 			} else {
 				Token out(LexemType::id, stringValue);
 				stringValue = "";
 				currentState = 0;
+				setPrevPos();
 				stopAtCurrent = true;
 				return out;
 			}
@@ -163,6 +170,7 @@ Token Scanner::getNextToken() {
 			} else {
 				Token out(LexemType::opminus);
 				currentState = 0;
+				setPrevPos();
 				stopAtCurrent = true;
 				return out;
 			}
@@ -174,6 +182,7 @@ Token Scanner::getNextToken() {
 			} else {
 				Token out(LexemType::opnot);
 				currentState = 0;
+				setPrevPos();
 				stopAtCurrent = true;
 				return out;
 			}
@@ -185,6 +194,7 @@ Token Scanner::getNextToken() {
 			} else {
 				Token out(LexemType::oplt);
 				currentState = 0;
+				setPrevPos();
 				stopAtCurrent = true;
 				return out;
 			}
@@ -196,6 +206,7 @@ Token Scanner::getNextToken() {
 			} else {
 				Token out(LexemType::opassign);
 				currentState = 0;
+				setPrevPos();
 				stopAtCurrent = true;
 				return out;
 			}
@@ -207,6 +218,7 @@ Token Scanner::getNextToken() {
 			} else {
 				Token out(LexemType::opplus);
 				currentState = 0;
+				setPrevPos();
 				stopAtCurrent = true;
 				return out;
 			}
@@ -249,4 +261,9 @@ int Scanner::getRowPos() const {
 
 void Scanner::pushBack(const Token& token) {
 	pushedBack.push(token);
+}
+
+void Scanner::setPrevPos() {
+	colPos = prevColPos;
+	rowPos = prevRowPos;
 }
