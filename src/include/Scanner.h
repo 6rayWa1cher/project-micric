@@ -18,17 +18,18 @@ static std::map<char, LexemType> punctuation{{'[', LexemType::lbracket},
                                              {';', LexemType::semicolon},
                                              {',', LexemType::comma},
                                              {':', LexemType::colon}};
-static std::map<std::string, LexemType> keywords{{"return", LexemType::kwreturn},
-                                                 {"int",    LexemType::kwint},
-                                                 {"char",   LexemType::kwchar},
-                                                 {"if",     LexemType::kwif},
-                                                 {"else",   LexemType::kwelse},
-                                                 {"switch", LexemType::kwswitch},
-                                                 {"case",   LexemType::kwcase},
-                                                 {"while",  LexemType::kwwhile},
-                                                 {"for",    LexemType::kwfor},
-                                                 {"in",     LexemType::kwin},
-                                                 {"out",    LexemType::kwout}};
+static std::map<std::string, LexemType> keywords{{"return",  LexemType::kwreturn},
+                                                 {"int",     LexemType::kwint},
+                                                 {"char",    LexemType::kwchar},
+                                                 {"if",      LexemType::kwif},
+                                                 {"else",    LexemType::kwelse},
+                                                 {"switch",  LexemType::kwswitch},
+                                                 {"case",    LexemType::kwcase},
+                                                 {"while",   LexemType::kwwhile},
+                                                 {"for",     LexemType::kwfor},
+                                                 {"in",      LexemType::kwin},
+                                                 {"out",     LexemType::kwout},
+                                                 {"default", LexemType::kwdefault}};
 
 class Scanner {
 private:

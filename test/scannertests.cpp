@@ -1144,3 +1144,11 @@ TEST(ScannerTests, Positions) {
 	ASSERT_EQ(8, scanner.getColPos());
 	ASSERT_EQ(4, scanner.getRowPos());
 }
+
+TEST(ScannerTests, KeywordDefaultTest) {
+	std::istringstream iss("default");
+	Scanner scanner(iss);
+	Token token = scanner.getNextToken();
+	token.print(std::cerr);
+	ASSERT_EQ(LexemType::kwdefault, token.type());
+}

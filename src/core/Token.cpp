@@ -125,6 +125,8 @@ std::string enToStr(LexemType type) {
 			return "eof";
 		case LexemType::error:
 			return "error";
+		case LexemType::kwdefault:
+			return "kwdefault";
 	}
 	return "WAT?";
 }
